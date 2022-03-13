@@ -12,7 +12,7 @@ CREATE TABLE employees(
     firstname varchar(50),
     lastname varchar(50) NOT NULL,
     email varchar(50) UNIQUE,
-    department_id SERIAL REFERENCES departments(department_id)
+    department_id SERIAL REFERENCES departments(department_id) ON DELETE CASCADE
 )
 
 CREATE TABLE users( 

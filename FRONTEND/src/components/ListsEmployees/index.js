@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import AddEmployee from '../AddEmployee'
-import Departments from '../Deparments'
-import UpdateEmployee from '../UpdateEmployee'
+import AddEmployee from '../addEmployee'
+import Departments from '../departments'
+import UpdateEmployee from '../updateEmployee'
 
 function ListsEmployees() {
 
-    const [ employees, setEmployees] = useState([])
+    const [employees, setEmployees] = useState([])
 
     // [GET] Employees
     const getEmployees = async () => {
@@ -23,7 +23,7 @@ function ListsEmployees() {
         getEmployees()
     }, [])
 
-    async function handleDelete (id) {
+    async function handleDelete(id) {
         try {
             const deleteEmployee = await fetch(`http://localhost:5000/employees/${id}`, {
                 method: "DELETE"
@@ -36,14 +36,10 @@ function ListsEmployees() {
         }
     }
 
-    const handleAdd = (newEmployee) => {
-        setEmployees( emp => [...emp, newEmployee ])
-    }
-
     return (
         <div className='container mt-5'>
             <AddEmployee getEmployees={getEmployees} />
-            <Departments />
+            <Departments getEmployees={getEmployees} />
             <table className="table mt-5">
                 <thead>
                     <tr>
@@ -64,7 +60,7 @@ function ListsEmployees() {
                             <td>{employee.email}</td>
                             <td>{employee.department}</td>
                             <td className="d-flex">
-                                <UpdateEmployee employee={employee}/>
+                                <UpdateEmployee employee={employee} />
                                 <button type="button" className="btn btn-danger btn-sm btn-delete">
                                     <i className="fas fa-times" onClick={() => handleDelete(employee.employee_id)}>Delete</i>
                                 </button>

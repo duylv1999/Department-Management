@@ -9,3 +9,10 @@
 .btn-management {
     margin-left: 20px;
 }
+
+.header {
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    font-size: 36px;
+}
