@@ -1,14 +1,13 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from "react";
-
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
+import React, { useState } from "react"
+import { BrowserRouter, Navigate, Routes, Route} from "react-router-dom"
 
 // components
-import Header from './components/header'
-import ListsEmployees from './components/listsEmployees'
+import Home from './components/home'
 import Login from './components/login'
-
+import DashBoard from './components/dashboard'
+import ListDepartments from './components/listDepartments'
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,17 +17,15 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <Header />
-            <ListsEmployees />
-            {/* <p><Link to="/login">login</Link></p> */}
-
-            {/* <Route exact path="/" element={props => !isAuthenticated
-                                    ? (<Login {...props} setAuth={setAuth} />)
-                                    : (<Navigate to="/Dashboard" />)}
-                                /> */}
-            {/* <Route path="/login" element={<Login />}></Route> */}
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home/>} />
+                <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth}/> : <Navigate to="/dashboard" />} />
+                <Route path="/logout" element={<Navigate to="/" />} />
+                <Route path="/dashboard" element={isAuthenticated ? <DashBoard setAuth={setAuth} /> : <Navigate to="/login" />}  />
+                <Route path="/departments" element={isAuthenticated ? <ListDepartments setAuth={setAuth}/> : <Navigate to="/login" />}  />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

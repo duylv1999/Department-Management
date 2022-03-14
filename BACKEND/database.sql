@@ -22,8 +22,8 @@ CREATE TABLE users(
     employee_id SERIAL REFERENCES employees(employee_id)
 )
 
-INSERT INTO users (user_id, user_name, user_password)
-VALUES (1, 'admin', 'admin');
+INSERT INTO users ( user_name, user_password, employee_id)
+VALUES ('admin', 'admin', 15);
 
 INSERT INTO departments (department)
 VALUES('Front-end')

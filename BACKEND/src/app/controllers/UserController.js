@@ -6,7 +6,7 @@ const jwtGenerator = require("../../utils/jwtGenerator")
 class userController {
 
     async registry(req, res) {
-        const { user_name, user_password, employee_id } = req.body
+        const { user_name, user_password} = req.body
 
         try {
             const user = await pool.query("SELECT * FROM users WHERE user_name =$1", [user_name])
@@ -19,8 +19,8 @@ class userController {
             const bcryptPassword = await bcrypt.hash(user_password, salt);
 
             let newUser = await pool.query(
-                "INSERT INTO users (user_name, user_password, employee_id) VALUES($1, $2, $3) RETURNING *",
-                [user_name, bcryptPassword, employee_id]
+                "INSERT INTO users (user_name, user_password) VALUES($1, $2) RETURNING *",
+                [user_name, bcryptPassword]
             )
 
             const jwtToken = jwtGenerator(newUser.rows[0].user_id);
@@ -48,9 +48,11 @@ class userController {
                 user.rows[0].user_password
             );
 
+            console.log(user.rows[0].user_password)
             if (!validPassword) {
                 return res.status(401).json("Invalid user");
             }
+
             const jwtToken = jwtGenerator(user.rows[0].user_id);
             console.log("Login successfully........")
             return res.json({ jwtToken });

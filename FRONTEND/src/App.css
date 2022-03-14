@@ -16,3 +16,22 @@
     color: #fff;
     font-size: 36px;
 }
+
+.formLogin {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    flex-flow: column;
+}
+
+a {
+    text-decoration: none;
+    color: #333
+}
+
+.btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+  }
