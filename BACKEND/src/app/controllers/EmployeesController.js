@@ -1,4 +1,4 @@
-const pool = require("../../model/db")
+const pool = require("../../models/db")
 import {StatusCodes} from 'http-status-codes'
 
 class employeeController {
