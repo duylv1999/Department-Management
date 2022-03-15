@@ -1,7 +1,7 @@
 const pool = require("../../../db")
 const bcrypt = require('bcrypt')
 const jwtGenerator = require("../../utils/jwtGenerator")
-
+import {StatusCodes} from 'http-status-codes'
 
 class userController {
 
@@ -25,8 +25,16 @@ class userController {
 
             const jwtToken = jwtGenerator(newUser.rows[0].user_id);
 
+            // res.status(StatusCodes.OK).json({
+            //     success: "true",
+            //     msg: "Registry user successfully....."
+            // })
             return res.json({ jwtToken })
         } catch (err) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Registry user failed....."
+            })
             console.log(err.message)
         }
     }
@@ -55,10 +63,18 @@ class userController {
 
             const jwtToken = jwtGenerator(user.rows[0].user_id);
             console.log("Login successfully........")
+
+            // res.status(StatusCodes.OK).json({
+            //     success: "true",
+            //     msg: "Login successfully....."
+            // })
             return res.json({ jwtToken });
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("Server error");
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Login failed....."
+            })
         }
     }
 }

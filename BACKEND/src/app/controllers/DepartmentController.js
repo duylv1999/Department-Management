@@ -1,6 +1,7 @@
 const pool = require("../../../db")
+import {StatusCodes} from 'http-status-codes'
 
-class EmployeeController {
+class departmentController {
 
     // [GET] /departments
     async index(req, res) {
@@ -8,10 +9,17 @@ class EmployeeController {
             const allEmployees = await pool.query(
                 "SELECT * FROM departments"
             );
-
-            res.json(allEmployees.rows)
+            
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Get departments successfully....."
+            })
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Get departments failed....."
+            })
         }
     }
 
@@ -22,9 +30,16 @@ class EmployeeController {
             console.log(id)
             const deleteDepartment = await pool.query('DELETE FROM departments WHERE department_id =$1', [id])
 
-            res.json("Department was deleted!.....")
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Deleted departments successfully....."
+            })
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Delete departments failed....."
+            })
         }
     }
 
@@ -38,9 +53,16 @@ class EmployeeController {
             const updateDepartment = await pool.query("UPDATE departments SET department= $1 WHERE department_id = $2",
                 [department, id])
 
-            res.json("Department was updated!.....")
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Update departments successfully....."
+            })
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Update departments failed....."
+            })
         }
     }
 
@@ -51,12 +73,19 @@ class EmployeeController {
 
             const newDepartment = await pool.query("INSERT INTO departments (department) VALUES ($1) RETURNING *", [department])
 
-            res.json(newDepartment.rows[0])
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Create departments successfully....."
+            })
             // console.log("Create a Department succesfully.....")
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Create departments failed....."
+            })
         }
     }
 }
 
-module.exports = new EmployeeController
+module.exports = new departmentController

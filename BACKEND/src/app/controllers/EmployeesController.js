@@ -1,4 +1,5 @@
 const pool = require("../../../db")
+import {StatusCodes} from 'http-status-codes'
 
 class employeeController {
 
@@ -9,9 +10,16 @@ class employeeController {
                 "SELECT employee_id, firstname, lastname, email, departments.department, departments.department_id FROM employees JOIN departments ON employees.department_id = departments.department_id"
             );
 
-            res.json(allEmployees.rows)
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Get employees successfully....."
+            })
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Get employees failed....."
+            })
         }
     }
 
@@ -25,9 +33,16 @@ class employeeController {
                 [firstname, lastname, email, department_id]
             )
 
-            res.json(newEmployee.rows[0])
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Create employees successfully....."
+            })
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Create employees failed....."
+            })
         }
     }
 
@@ -40,9 +55,16 @@ class employeeController {
             const updateEmployee = await pool.query("UPDATE employees SET  firstname = $1, lastname = $2, email = $3, department_id= $4 WHERE employee_id = $5",
                 [firstname, lastname, email, department_id, id])
 
-            res.json("Employee was updated!.....")
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Update employees successfully....."
+            })
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Update employees failed....."
+            })
         }
     }
 
@@ -53,9 +75,16 @@ class employeeController {
 
             const deleteEmployee = await pool.query("DELETE FROM employees WHERE employee_id =$1", [id])
 
-            res.json("Employee was deleted!.....")
+            res.status(StatusCodes.OK).json({
+                success: "true",
+                msg: "Deleted employees successfully....."
+            })
         } catch (err) {
             console.error(err.message);
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: "false",
+                msg: "Delete employees failed....."
+            })
         }
     }
 }
