@@ -1,4 +1,4 @@
-const pool = require("../../../db")
+const pool = require("../../model/db")
 const bcrypt = require('bcrypt')
 const jwtGenerator = require("../../utils/jwtGenerator")
 import {StatusCodes} from 'http-status-codes'
